@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+   		<link type="text/css" rel="stylesheet" href="css/style.css" />
+   		<link type="text/css" rel="stylesheet" href="css/fontello-embedded-surf.css" />
+
+		<title>SurfHeaven Server Browser</title>
+
+	</head>
+	<body>
+
+		<div id="titlebar">
+			<div class="titleContainer">
+				<div class="title" style="-webkit-app-region: drag;">
+					Surf Servers
+					<span id="stats"></span>
+					<span id="timer"></span>
+				</div>
+			</div>
+			
+			<ul id="nav">
+				<li><i class="icon icon-arrows-ccw" id="reload" style="font-size:16px;"></i></li>
+				<li><i class="icon icon-cancel" id="close" style="font-size:21px;"></i></li>
+			</ul>
+		</div>
+
+		<div id="status">Loading ..</div>
+
+		<table id="data" cellspacing="0" cellpadding="0"></table>
+		<table id="temp"></table>
+
+
+		<script>window.$ = window.jQuery = require('jquery');</script>
+		<script src="js/app.js" type="text/javascript"></script>
+
+	</body>
+</html>

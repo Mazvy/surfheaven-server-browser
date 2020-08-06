@@ -1,0 +1,19 @@
+{
+  "name": "surfheaven-server-browser",
+  "version": "1.0.0",
+  "description": "SurfHeaven Server Browser",
+  "main": "start.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "surfheaven-server-browser"
+  },
+  "author": "Mazvydas",
+  "license": "ISC",
+  "dependencies": {
+    "electron": "^9.1.2",
+    "jquery": "^3.5.1"
+  }
+}
