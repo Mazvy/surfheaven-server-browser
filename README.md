@@ -1,6 +1,8 @@
 # SurfHeaven Server Browser
 A server browser tool for SurfHeaven.
 
+![Preview](preview.png)
+
 ## Download
 You can download a precompilled Windows package in the [releases page](https://github.com/Mazvy/surfheaven-server-browser/releases) or build the app yourself (instructions bellow).
 
