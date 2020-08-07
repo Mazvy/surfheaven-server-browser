@@ -28,11 +28,12 @@ body {
    padding: 0px;
    height: 100%;
    background: #2f323b;
+   overflow-y: hidden;
 }
 
 #titlebar {
 	position: relative;
-	background: rgba(0,0,0,.3);
+	background: #212329;
 	z-index: 2;
 }
 
@@ -48,6 +49,7 @@ body {
 	width: 100%;
 	height: 100%;
 	padding-right: 60px;
+	padding-left: 80px;
 }
 
 #nav {
@@ -139,9 +141,168 @@ table a:hover {
     position: absolute;	
 	font-size: 17px;
     color: white;
-    opacity: 0.4;
-    text-shadow: 2px 2px 0px black;    
-    pointer-events: none;
+    color: #9a9da4;
+    text-shadow: 2px 2px 0px #31343d;    
+    user-select: none;
     text-align: center;
     z-index: 1;
+}
+
+#options {
+	width: 100%;
+	height: 100%;
+	background: blue;
+	padding-top: 34px;
+	background: #36393f;
+	position: relative;
+}
+
+#servers {
+	width: 100%;
+	height: 100%;
+	padding-top: 34px;
+	position: relative;
+}
+
+#container {
+	width: 100%;
+	height: 100%;
+	background: yellow;
+	margin-top: -34px;
+	transform: translate(0, -100%);
+	transition: transform .5s ease-in-out;
+}
+
+#container.showOptions {
+	transform: translate(0, 0);
+}
+
+#toggleOptions {
+	cursor: pointer;
+	color: #b5b5b5;
+	transition: color .5s;
+	user-select: none;
+	position: absolute;
+	padding: 10px;
+	top: 0px;
+	left: 0px;
+}
+
+#toggleOptions:hover {
+	color: white;
+}
+.toggle-control {
+  display: inline-block;
+  transform: scale(0.45);
+  position: relative;
+  margin-left: -50px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+.toggle-control input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+.toggle-control input:checked ~ .control {
+  background-color: dodgerblue;
+}
+.toggle-control input:checked ~ .control:after {
+  left: 55px;
+}
+.toggle-control .control {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 50px;
+  width: 100px;
+  border-radius: 25px;
+  background-color: darkgray;
+  -webkit-transition: background-color 0.15s ease-in;
+  transition: background-color 0.15s ease-in;
+}
+.toggle-control .control:after {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 5px;
+  width: 40px;
+  height: 40px;
+  border-radius: 25px;
+  background: white;
+  -webkit-transition: left 0.15s ease-in;
+  transition: left 0.15s ease-in;
+}
+
+#options li {
+	list-style-type: none;
+	color: #ffffff;
+	font-size: 13px;
+	margin: 15px 20px;
+	border-bottom: 1px solid #42454a;
+	padding-bottom: 20px;
+}
+
+#options li:last-child {
+	border: none;
+	padding-bottom: 0;
+}
+
+#options li .desc {
+	color: #b9bbbe;
+	font-size: 11px;
+	display: block;
+	margin-top: 5px;
+}
+
+#options li .option {
+	float: right;
+}
+
+.textInput {
+	border: 1px solid #222428;
+	border-radius: 5px;
+	background: #303339;
+	color: #ffffff;
+	padding: 8px 10px;
+	outline: none;
+	width: 100px;
+}
+
+#saveSettings {
+	border: none;
+	background: #43b581;
+	color: #ffffff;
+	font-family: Roboto,sans-serif;
+   	font-size: 12px;
+   	padding: 10px 10px;
+   	border-radius: 5px;
+   	cursor: pointer;
+   	transition: background .3s;
+   	outline: none;
+}
+
+#saveSettings:hover {
+	background: #50c590;
+}
+
+#saveSettings:active {
+	background: #38a372;
+}
+
+.optionsLink {
+	font-weight: bold;
+	color: #7173C0;
+	cursor: pointer;
+	transition: color .3s;
+}
+
+.optionsLink:hover {
+	color: #8385de;
 }

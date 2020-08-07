@@ -1,28 +1,88 @@
-$(document).ready(function() {
+$(document).ready(async function() {
 
 	const remote = require('electron').remote;
 	const ipc = require('electron').ipcRenderer;
 	const fs = require('fs');
 
+	var config = JSON.parse(fs.readFileSync('config.json').toString());
+	var firstRun = true;
+	var timer;
+
 	$('#close').on('click', function() {
-       var window = remote.getCurrentWindow();
-       window.close();
+		var window = remote.getCurrentWindow();
+		window.close();
 	});
 
-	var config = JSON.parse(fs.readFileSync('config.json').toString());
-	
-	if(config.playerID === undefined || config.playerID == '' || config.playerID == 'YOUR_STEAMID3') {
-		$('#status').html('Player ID not configured in <strong>options.json</strong>.');
-		return;
-	}
 
-	var firstRun = true;
+	$(document).on('click', '#toggleOptions, .optionsLink', function() {
+		$('#container').toggleClass('showOptions');
+	})
+
+	$('#saveSettings').on('click', function() {
+
+		var optionList = $('#options input');
+
+		for(var i=0; i < optionList.length; i++) {
+
+			if($(optionList[i]).attr('type') == 'checkbox') {
+				config[$(optionList[i]).attr('name')] = $(optionList[i]).is(':checked');
+			} else {
+				config[$(optionList[i]).attr('name')] = $(optionList[i]).val();
+			}		
+			
+		}
+
+		fs.writeFileSync('config.json', JSON.stringify(config));
+
+		firstRun = true;
+
+		$('#data').html('');	
+		$('#container').removeClass('showOptions');
+		initialLoad();
+	})
 
 	$('#reload').on('click', function() {
 		clearInterval(timer);
 		$('#timer').text('Refreshing');
-	    loadServer();				            
+		loadServers();				            
 	});
+
+	async function initialLoad() {
+
+
+		$('#status').show().html('Loading ..');		
+
+		if(config.forceShowAllServers) {
+			$('input[name="forceShowAllServers"]').attr('checked', 'checked');
+		}
+
+		if(config.playerID == null) {
+
+			$('#status').html('Trying to retrieve your steamid3 id.');
+
+			var receivedPlayerID;
+			await new Promise(done => $.getJSON('https://surfheaven.eu/api/id', async function(data) {
+				receivedPlayerID = data[0];
+				done();
+			}));
+
+			if(receivedPlayerID.steamid !== undefined) {
+				config.playerID = receivedPlayerID.steamid;
+				fs.writeFileSync('config.json', JSON.stringify(config));
+			}
+		}
+		
+		if(config.playerID === undefined || config.playerID == '' || config.playerID == 'YOUR_STEAMID3' || config.playerID == null) {
+			$('#status').html('Player ID not found. Add it in the <span class="optionsLink">options</span>.');
+			return;
+		}
+
+		$('input[name="playerID"]').val(config.playerID);	
+		loadServers();	
+	}
+
+	initialLoad();
+
 
 	function pad(num, size) {
 		var s = num + '';
@@ -30,7 +90,6 @@ $(document).ready(function() {
 		return s;
 	}				
 
-	let timer;
 
 	function startCountdown() {
 
@@ -47,7 +106,7 @@ $(document).ready(function() {
 
 	        if (--duration < 0) {
 	        	$('#timer').text('Refreshing');
-	        	loadServer();
+	        	loadServers();
 	            clearInterval(timer);
 	        }
 
@@ -56,7 +115,7 @@ $(document).ready(function() {
 
 	}				
 	
-	async function loadServer() {
+	async function loadServers() {
 
 		clearInterval(timer);
 		var times = {};
@@ -68,18 +127,16 @@ $(document).ready(function() {
 		}))
 
 		if(player === undefined || player.length == 0) {
-			$('#status').html('Player not found or connection failed.<br/><br/>Make sure <strong>options.json</strong> is configured correctly and relaunch the app.');
+			$('#status').html('Player not found or connection failed.<br/><br/>Make sure the correct ID is set in <span class="optionsLink">options</span>.');
 			return;
 		}
 
 		$.when(
 			$.getJSON('https://surfheaven.eu/api/records/' + config.playerID), 
-			$.getJSON('https://surfheaven.eu/api/vip/' + config.playerID), 
 			$.getJSON('https://surfheaven.eu/api/servers')
-		).done(async function(records, vipStatus, servers) {
+		).done(async function(records, servers) {
 
 			var mapBestTimes = {};
-			var vip = Boolean(vipStatus[0][0].vip);
 
 			for(var i in records[0]) {
 
@@ -106,7 +163,7 @@ $(document).ready(function() {
 
 			$('#stats').html('Rank ' + player.rank + ' &middot; ' + player.rankname + ' &middot; ' + player.points + ' points');
 
-			var toShow = (vip || player.rank <= 500 || config.forceShowAllServers) ? 6 : 3;
+			var toShow = (Boolean(player.vip) || player.rank <= 500 || config.forceShowAllServers) ? 6 : 3;
 
 			for(var i = 0; i <= toShow; i++) {
 
@@ -136,7 +193,7 @@ $(document).ready(function() {
 
 
 			if(firstRun) {
-				ipc.send('height', document.body.scrollHeight);
+				ipc.send('height', $('#data').height()+34);
 				firstRun = false;
 			}
 
@@ -149,5 +206,5 @@ $(document).ready(function() {
 
 
 	}
-	loadServer();
+	
 });	

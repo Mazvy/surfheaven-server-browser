@@ -14,11 +14,12 @@
 		<div id="titlebar">
 			<div class="titleContainer">
 				<div class="title" style="-webkit-app-region: drag;">
-					Surf Servers
 					<span id="stats"></span>
 					<span id="timer"></span>
 				</div>
 			</div>
+
+			<span id="toggleOptions">SurfHeaven</span>					
 			
 			<ul id="nav">
 				<li><i class="icon icon-arrows-ccw" id="reload" style="font-size:16px;"></i></li>
@@ -26,9 +27,51 @@
 			</ul>
 		</div>
 
-		<div id="status">Loading ..</div>
+		<div id="container">
 
-		<table id="data" cellspacing="0" cellpadding="0"></table>
+			<div id="options">
+
+				<li>
+
+					<span class="option"><input type="text" class="textInput" name="playerID" /></span>
+					<label class="optionsTitle">Player steamID3 id<span class="desc">Get with steam id finders or on SurfHeaven</span></label>
+					
+				</li>
+
+				<li>
+					<span class="option">
+						<label class="toggle-control">
+							<input type="checkbox" name="forceShowAllServers">
+							<span class="control"></span>
+						</label>
+					</span>
+
+					<label class="optionsTitle">Display all servers<span class="desc">If you're VIP or top 250 all servers will display automatically</span></label>
+
+				</li>
+				<li>
+					<span class="option">
+						<button id="saveSettings">Save settings</button>
+					</span>
+
+					<label class="optionsTitle">&nbsp;</span></label>
+
+				</li>
+			</div>
+
+			<div id="servers">
+				
+				<div id="status"></div>
+				<table id="data" cellspacing="0" cellpadding="0"></table>
+			</div>			
+
+		</div>
+
+
+
+		
+
+		
 		<table id="temp"></table>
 
 
