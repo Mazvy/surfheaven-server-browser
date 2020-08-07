@@ -7,8 +7,9 @@ A server browser tool for SurfHeaven.
 You can download a precompilled Windows package in the [releases page](https://github.com/Mazvy/surfheaven-server-browser/releases) or build the app yourself (instructions bellow).
 
 ## Configuration
-**You have to update the `playerID` value in order for the application to work.**
-The `config.json` file located in the root project directory
+**`playerID` should be loaded automatically. If not add it yourself in the options ui by clicking SurfHeaven in the top bar.**
+
+Configuration can be done in the app or in the `config.json` file located in the root project directory
 
 **playerID** `int`
 
