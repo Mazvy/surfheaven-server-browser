@@ -1,6 +1,8 @@
 # SurfHeaven Server Browser
 A server browser tool for SurfHeaven.
 
+![Preview](preview.png)
+
 ## Download
 You can download a precompilled Windows package in the [releases page](https://github.com/Mazvy/surfheaven-server-browser/releases) or build the app yourself (instructions bellow).
 
@@ -9,9 +11,11 @@ You can download a precompilled Windows package in the [releases page](https://g
 The `config.json` file located in the root project directory
 
 **playerID** `int`
+
 Your steamid3 value. You can get this id on any steam id finder or on SurfHeaven by clicking on **My Profile** and copying your ID from the URL.
 
 **forceShowAllServers** `boolean`
+
 VIPs and top 250 surfers will **automatically** see all servers in the server browser. You can set this value to `true` if you want to see all servers.
 
 ## Manual installation
