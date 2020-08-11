@@ -105,6 +105,7 @@ table tr:nth-of-type(2n+1) {
 
 table tr td {
 	padding: 14px 10px;
+	transition: color .3s;
 }
 
 table a {
@@ -305,4 +306,26 @@ table a:hover {
 
 .optionsLink:hover {
 	color: #8385de;
+}
+
+#data td .star {
+	opacity: 0;
+	transition: opacity .3s;
+}
+
+#data td:hover .star {
+	opacity: .4;
+}
+
+#data td .star:hover {
+	cursor: pointer;
+}
+
+#data td.active .star {
+	color: #C7B947;
+	opacity: 1 !important;
+}
+
+#data td.active {
+	color: white;
 }

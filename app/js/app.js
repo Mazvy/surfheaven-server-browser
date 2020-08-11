@@ -4,9 +4,15 @@ $(document).ready(async function() {
 	const ipc = require('electron').ipcRenderer;
 	const fs = require('fs');
 
-	var config = JSON.parse(fs.readFileSync('config.json').toString());
+	const configFile = 'config.json';
+
+	var config = JSON.parse(fs.readFileSync(configFile).toString());
 	var firstRun = true;
 	var timer;
+
+	function saveSettings(file, json) {
+		fs.writeFileSync(file, JSON.stringify(json));
+	}
 
 	$('#close').on('click', function() {
 		var window = remote.getCurrentWindow();
@@ -16,6 +22,19 @@ $(document).ready(async function() {
 
 	$(document).on('click', '#toggleOptions, .optionsLink', function() {
 		$('#container').toggleClass('showOptions');
+	})
+
+	$(document).on('click', '#data .star', function() {
+		$(this).parent().toggleClass('active');
+
+		if($(this).parent().hasClass('active')) {
+			config.favourites.push($(this).parent().find('.map').text());
+		} else {
+			config.favourites.splice(config.favourites.indexOf($(this).parent().find('.map').text()), 1);
+		}
+
+		saveSettings(configFile, config);
+
 	})
 
 	$('#saveSettings').on('click', function() {
@@ -32,7 +51,7 @@ $(document).ready(async function() {
 			
 		}
 
-		fs.writeFileSync('config.json', JSON.stringify(config));
+		saveSettings(configFile, config);
 
 		firstRun = true;
 
@@ -68,7 +87,7 @@ $(document).ready(async function() {
 
 			if(receivedPlayerID.steamid !== undefined) {
 				config.playerID = receivedPlayerID.steamid;
-				fs.writeFileSync('config.json', JSON.stringify(config));
+				saveSettings(configFile, config);
 			}
 		}
 		
@@ -178,7 +197,7 @@ $(document).ready(async function() {
 				
 				$('#temp').append('<tr></tr>');
 				$('#temp tr:last-child').append('<td style="width:130px;">'+ (server.name).replace('SurfHeaven ', '') +'</td>');
-				$('#temp tr:last-child').append('<td>'+ server.map +'  &middot; <span style="opacity:.8">'+ mapInfo.tier +'</span></td>');
+				$('#temp tr:last-child').append('<td'+ ((config.favourites.includes(server.map)) ? ' class="active"' : '') +'><span class="map">'+ server.map +'</span>  &middot; <span style="opacity:.8">'+ mapInfo.tier +'</span> <span class="star"><i class="icon icon-star" style="font-size:14px;"></i></span></td>');
 				$('#temp tr:last-child').append('<td style="width:130px;">'+((mapBestTimes[server.map] !== undefined && mapBestTimes[server.map].time != 0) ? '#' + mapBestTimes[server.map]['rank'] + ' / ' + mapBestTimes[server.map]['time'] : '')+'</td>');
 				$('#temp tr:last-child').append('<td style="width:55px;">'+ completedBonuses +' / '+mapInfo.bonus+'</td>');
 				$('#temp tr:last-child').append('<td style="width:55px;">'+ server.playercount +'/'+ server.maxplayers +'</td>');
