@@ -196,8 +196,8 @@ $(document).ready(async function() {
 				var completedBonuses = (mapBestTimes[server.map] !== undefined) ? Object.keys(mapBestTimes[server.map].bonuses).length : 0;
 				
 				$('#temp').append('<tr></tr>');
-				$('#temp tr:last-child').append('<td style="width:130px;">'+ (server.name).replace('SurfHeaven ', '') +'</td>');
-				$('#temp tr:last-child').append('<td'+ ((config.favourites.includes(server.map)) ? ' class="active"' : '') +'><span class="map">'+ server.map +'</span>  &middot; <span style="opacity:.8">'+ mapInfo.tier +'</span> <span class="star"><i class="icon icon-star" style="font-size:14px;"></i></span></td>');
+				$('#temp tr:last-child').append('<td style="width:135px;">'+ (server.name).replace('SurfHeaven ', '') +'</td>');
+				$('#temp tr:last-child').append('<td'+ ((config.favourites.includes(server.map)) ? ' class="active"' : '') +'><span class="map">'+ server.map +'</span>  &middot; <span style="opacity:.8">'+ mapInfo.tier +'</span> &middot; <span style="opacity:.8">'+ ((mapInfo.type == 1) ? 'S' : 'L') +'</span> <span class="star"><i class="icon icon-star" style="font-size:14px;"></i></span></td>');
 				$('#temp tr:last-child').append('<td style="width:130px;">'+((mapBestTimes[server.map] !== undefined && mapBestTimes[server.map].time != 0) ? '#' + mapBestTimes[server.map]['rank'] + ' / ' + mapBestTimes[server.map]['time'] : '')+'</td>');
 				$('#temp tr:last-child').append('<td style="width:55px;">'+ completedBonuses +' / '+mapInfo.bonus+'</td>');
 				$('#temp tr:last-child').append('<td style="width:55px;">'+ server.playercount +'/'+ server.maxplayers +'</td>');
