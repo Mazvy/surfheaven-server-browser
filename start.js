@@ -5,7 +5,7 @@ let win;
 
 function createWindow () {
     win = new BrowserWindow({
-        width: 680,
+        width: 700,
         height: 250,
         minHeight: 250,
         transparent: true, 
@@ -25,5 +25,5 @@ function createWindow () {
 app.on('ready', createWindow);
 
 ipc.on('height', function(e, height) {
-    win.setSize(650, height);
+    win.setSize(700, height);
 }); 

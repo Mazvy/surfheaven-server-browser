@@ -1,5 +1,26 @@
 $(document).ready(async function() {
 
+	ranks = [
+		{ 'rank': 25000, 'title': 'Calzone' },
+		{ 'rank': 15000, 'title': 'Burrito' },
+		{ 'rank': 6000, 'title': 'Beginner' },
+		{ 'rank': 3000, 'title': 'Potato' },
+		{ 'rank': 2000, 'title': 'Regular' },
+		{ 'rank': 1500, 'title': 'Amateur' },
+		{ 'rank': 1000, 'title': 'Casual' },
+		{ 'rank': 750, 'title': 'Intermediate' },
+		{ 'rank': 500, 'title': 'Skilled' },
+		{ 'rank': 250, 'title': 'Hotshot' },
+		{ 'rank': 150, 'title': 'TheSteve' },
+		{ 'rank': 100, 'title': 'Pro' },
+		{ 'rank': 75, 'title': 'Expert' },
+		{ 'rank': 50, 'title': 'Veteran' },
+		{ 'rank': 25, 'title': 'Elite' },
+		{ 'rank': 10, 'title': 'Master' },
+		{ 'rank': 3, 'title': 'Custom' },
+		{ 'rank': 0, 'title': 'God' }
+	];	
+
 	const remote = require('electron').remote;
 	const ipc = require('electron').ipcRenderer;
 	const fs = require('fs');
@@ -141,6 +162,7 @@ $(document).ready(async function() {
 
 		var player;
 		await new Promise(done => $.getJSON('https://surfheaven.eu/api/playerinfo/' + config.playerID, async function(data) {
+			window.player = data[0];
 			player = data[0];
 			done();
 		}))
@@ -180,7 +202,20 @@ $(document).ready(async function() {
 
 			}
 
-			$('#stats').html('Rank ' + player.rank + ' &middot; ' + player.rankname + ' &middot; ' + player.points + ' points');
+			var nextRank = -1;
+			for(var i in ranks) { 
+			    if(ranks[i].rank >= player.rank && ranks[++i].rank < player.rank) { 
+			        nextRank = ranks[i].rank;
+			        break;
+			    }
+			}
+
+			await new Promise(done => $.getJSON('https://surfheaven.eu/api/rank/' + nextRank, async function(data) {
+				nextRankData = data[0];
+				done()
+			}));
+
+			$('#stats').html('Rank ' + player.rank + ' &middot; ' + player.rankname + ' &middot; ' + player.points + ' points <span style="opacity:.5;">('+ (nextRankData.points-player.points) +' to '+nextRankData.rankname+')</span>');
 
 			var toShow = (Boolean(player.vip) || player.rank <= 500 || config.forceShowAllServers) ? 6 : 3;
 
@@ -192,6 +227,8 @@ $(document).ready(async function() {
 					mapInfo = data[0];
 					done();
 				}));
+
+
 
 				var completedBonuses = (mapBestTimes[server.map] !== undefined) ? Object.keys(mapBestTimes[server.map].bonuses).length : 0;
 				
